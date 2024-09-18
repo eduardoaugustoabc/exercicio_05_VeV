@@ -63,7 +63,6 @@ describe('currencies', () => {
     const buttonToCreate = await driver.findElements(By.css('*[class^="ui labeled icon primary button"]'));
     await buttonToCreate[0].click();
 
-
     // Assert that cannot create the same currency twice
     const bodyText = await driver.findElement(By.tagName('body')).getText();
     assert(bodyText.includes('Currency has been successfully created.'));
