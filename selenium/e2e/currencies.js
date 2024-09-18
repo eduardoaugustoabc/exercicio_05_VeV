@@ -1,7 +1,8 @@
 const { Builder, By, until } = require('selenium-webdriver');
 const assert = require('assert');
 
-describe('currencies', () => {
+describe('currencies', function() {
+  this.timeout(30000);
   let driver;
   
   before(async () => {
@@ -43,10 +44,9 @@ describe('currencies', () => {
     const bodyText = await driver.findElement(By.tagName('body')).getText();
     assert(bodyText.includes('This form contains errors.'));
     assert(bodyText.includes('Currency code must be unique.'));
-    done();
-  }).timeout(30000);
+  });
 
-  it('Test Off - Create Euro', async () => {
+  it('Test Off - Create Croatian Kuna', async () => {
     // Click in currencies in side menu
     await driver.findElement(By.linkText('Currencies')).click();
 
@@ -54,22 +54,22 @@ describe('currencies', () => {
     const buttons = await driver.findElements(By.css('*[class^="ui labeled icon button  primary "]'));
     await buttons[0].click();
 
-    // Select Euro currency
+    // Select Turkish Lira currency
     const dropdown = await driver.findElement(By.id('sylius_currency_code'));
-    await dropdown.findElement(By.xpath("//option[. = 'Euro']")).click();
-
+    await dropdown.findElement(By.xpath("//option[. = 'Croatian Kuna']")).click();
 
     // Click on create button
     const buttonToCreate = await driver.findElements(By.css('*[class^="ui labeled icon primary button"]'));
     await buttonToCreate[0].click();
 
-    // Assert that cannot create the same currency twice
+    // Get the body text to verify the result
     const bodyText = await driver.findElement(By.tagName('body')).getText();
-    assert(bodyText.includes('Currency has been successfully created.'));
-    done();
-  }).timeout(30000);
 
-  it('Test Off - Create Brazilian Real', async () => {
+    // Assert that the currency was successfully created
+    assert(bodyText.includes('Currency has been successfully created.'));
+  });
+
+  it('Test Off - Create Iranian Rial', async () => {
     // Click in currencies in side menu
     await driver.findElement(By.linkText('Currencies')).click();
 
@@ -80,7 +80,7 @@ describe('currencies', () => {
 
     // Select Brazilian Real currency
     const dropdown = await driver.findElement(By.id('sylius_currency_code'));
-    await dropdown.findElement(By.xpath("//option[. = 'Brazilian Real']")).click();
+    await dropdown.findElement(By.xpath("//option[. = 'Iranian Rial']")).click();
 
 
     // Click on create button
@@ -91,8 +91,7 @@ describe('currencies', () => {
     // Assert that cannot create the same currency twice
     const bodyText = await driver.findElement(By.tagName('body')).getText();
     assert(bodyText.includes('Currency has been successfully created.'));
-    done();
-  }).timeout(30000);
+  });
 
   it('Test 1 - Create a conversion between two equal currencies (Dollar) - Error.', async () => {
     // Click in exchange rates in side menu
@@ -121,11 +120,10 @@ describe('currencies', () => {
     // Assert that exchange rate has been created
     const bodyText = await driver.findElement(By.tagName('body')).getText();
     assert(bodyText.includes('This form contains errors.'));
-    done();
-  }).timeout(30000);
+  });
 
 
-  it('Test 2 - Create a conversion between Dollar and Euro', async () => {
+  it('Test 2 - Create a conversion between Dollar and Croatian Kuna', async () => {
     // Click in exchange rates in side menu
     await driver.findElement(By.linkText('Exchange rates')).click();
 
@@ -140,9 +138,9 @@ describe('currencies', () => {
     await dropdown.findElement(By.xpath("//option[. = 'US Dollar']")).click();
 
 
-    // Select Euro Target currency
-    const dropdown_euro = await driver.findElement(By.id('sylius_exchange_rate_targetCurrency'));
-    await dropdown_euro.findElement(By.xpath("//option[. = 'Euro']")).click();
+    // Select Croatian Kuna Target currency
+    const dropdown_kuna = await driver.findElement(By.id('sylius_exchange_rate_targetCurrency'));
+    await dropdown_kuna.findElement(By.xpath("//option[. = 'Croatian Kuna']")).click();
 
 
     // Type ratio to 5
@@ -157,6 +155,5 @@ describe('currencies', () => {
     // Assert that exchange rate has been created
     const bodyText = await driver.findElement(By.tagName('body')).getText();
     assert(bodyText.includes('Exchange rate has been successfully created.'));
-    done();
-  }).timeout(30000);
+  });
 });
