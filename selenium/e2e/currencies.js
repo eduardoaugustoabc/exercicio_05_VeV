@@ -74,7 +74,6 @@ describe('currencies', () => {
     // Click in currencies in side menu
     await driver.findElement(By.linkText('Currencies')).click();
 
-
     // Click on create button
     const buttons = await driver.findElements(By.css('*[class^="ui labeled icon button  primary "]'));
     await buttons[0].click();
