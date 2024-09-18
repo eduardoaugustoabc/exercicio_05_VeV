@@ -54,7 +54,6 @@ describe('currencies', () => {
     const buttons = await driver.findElements(By.css('*[class^="ui labeled icon button  primary "]'));
     await buttons[0].click();
 
-
     // Select Euro currency
     const dropdown = await driver.findElement(By.id('sylius_currency_code'));
     await dropdown.findElement(By.xpath("//option[. = 'Euro']")).click();
